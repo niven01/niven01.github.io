@@ -41,9 +41,15 @@ jobs:
       - name: Render Static Pages
         run: python3 build.py
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+      - name: cmd
+        run: | 
+          ls
+          cd site
+          ls
+
+      # - name: Deploy
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./site
