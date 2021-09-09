@@ -47,7 +47,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         email: niven01@gmal.com
-        build_dir: docs               
+        build_dir: _site               
         branch: website                
         commit_message: "Update site"
 
