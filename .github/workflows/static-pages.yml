@@ -45,11 +45,12 @@ jobs:
         run: | 
           git config  user.email "niven01@gmail.com"
           git config  user.name "Nielsen"
+          git branch
           git add site
           git commit -m "Update site pages"
-          git push origin dev
-          git checkout main
-          git merge dev
+          # git push origin dev
+          # git checkout main
+          # git merge dev
 
 
       # - name: Deploy
