@@ -43,9 +43,12 @@ jobs:
 
       - name: cmd
         run: | 
-          ls
-          cd site
-          ls
+          git add site
+          git commit -m "Update site pages"
+          git push origin dev
+          git checkout main
+          git merge dev
+
 
       # - name: Deploy
       #   uses: peaceiris/actions-gh-pages@v3
