@@ -1,11 +1,49 @@
-name: Test
-on: [push]
+name: Static-Pages-CI
+
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events
+  pull_request:
+    branches: ['*']
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
-  Test:
+  staticpages:
+    name: Static Pages CI
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Check HTML
-        uses: chabad360/htmlproofer@master
+      - name: Clone repo
+        uses: actions/checkout@main
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
         with:
-          directory: "./"
+          python-version: '3.8'
+          architecture: 'x64'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r ./requirements.txt
+
+      - name: Render Static Pages
+        run: python3 build.py
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
